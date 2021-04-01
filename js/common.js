@@ -64,8 +64,6 @@ Vue.component('goodslist', {
         <div class="goods-list">
         	<div class="hearid" id="board">
 	            <div class="ter"  
-	            	
-	            	
 	            	v-for="good in goods.arr" 
                 	:key="good.id"
                 	v-bind:class="{ 'month-color': good.prMonth, 'text-danger': good.prSunday, 'current-day': good.prCurrentDay }"
@@ -106,7 +104,7 @@ new Vue ({
 		smech : [6, 7, 1, 2, 3, 4, 5],  // смещение нумерации дней
 		jacheka : 1,
 		tabls : ['','','','','','','','','','','','','','','','',],  // массив для хранения записей таблицы
-		vidcodmed : {},// массив для хранения ключей - дат
+		vidcodmed : [],// массив для хранения ключей - дат
 		dayMonth : ['ПН','ВТ','СР','ЧТ','ПТ','СБ','ВС',],
 		monthN : {   // Название месяца
 			0: ["Январь", "01"],
@@ -154,8 +152,8 @@ new Vue ({
 			//устанавливаем дату для первой ячейки
 			date3.setDate(date.getDate() - this.smech[date.getDay()]);
 			// формируем ключ по дате
-			//let kodmet ='p'+ Year+''+monthN[Month][1]+''+days; 
-						
+			let kodmet ='p'+ year +''+this.monthN[month][1] +'' + days; 
+			console.log('kodmet   '+kodmet)			
 			this.monthTable.arr = [];
 			
 			const min = 1;
@@ -179,14 +177,14 @@ new Vue ({
 			//console.log('this.monthTable   '+this.monthTable[n].day)
 			}
 			this.monthTable.cellClick = jcheika;
-			this.titleHed = this.monthN[month][0] +" " +year;
-			console.log('заголовок   ' + this.monthTable.titleHed)
+			this.titleHed = this.monthN[month][0] + " " +year;
+			
 			//console.log('this.monthTable   '+this.monthTable[n])
 			//console.log('this.monthTable   '+this.monthTable)
-			return 
+			 
 		},
 
-		//********************** ф-ия  клик по стрелке назад на окне календаря
+		//********************** ф-ия  клик по стрелке назад или вперед на окне календаря
 		clickNavHead(a){
 			this.date1.setMonth(this.date1.getMonth() + a);  // переопределяем месяц 
 			this.generatingMonthData(this.date1.getFullYear(),this.date1.getMonth(),this.date1.getDate(),1);     // обращение к ф-ии для обновления данных месяца
