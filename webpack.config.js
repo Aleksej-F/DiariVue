@@ -52,7 +52,7 @@ module.exports = {
     resolve: {
         extensions: ['vue'],
         alias: {
-          Utilities: path.resolve(__dirname, 'static/components/'),
+          Utilities: path.resolve(__dirname, 'js/components/'),
           
         },
       },
