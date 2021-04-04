@@ -5,12 +5,12 @@
 			<div class="tabli">Телефон</div>
 			<div class="tabli">Оплата</div>
 			<div class="tabli"
-				v-for="(good, index) in goods"
+				v-for="(good) in goods"
 				:key="good.id"
-			><input type="text" class="texti" :data="index"
-				v-bind:value="good"
-				v-on:input="(e) => inputKey(e)"
-			/>  </div>
+			><input type="text" class="texti" :data="good.id"
+				v-model="good.zar"
+				
+			/></div>
 			
 		</div>
 </template>
@@ -19,7 +19,6 @@ export default {
     props: ['goods'],
     methods: {
 		inputKey(e) {
-			
 			this.$emit('addtask', e);
 		},
 	 }

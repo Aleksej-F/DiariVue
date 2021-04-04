@@ -10,7 +10,9 @@
 	                <div class="cir1"
 	                	v-bind:class="{ cir2: good.prCir2, cir3: good.prCir3 }"
 	                ></div>
-	                <div class="cir"> {{ good.recordsDay }} </div>
+	                <div class="cir"
+						v-if="good.recordsDay > 0"
+					> {{ good.recordsDay }} </div>
 	            </div>
          	</div>
 
@@ -21,13 +23,16 @@ export default {
     props: ['goods'],
     methods: {
      	myClickKell(good,goods) {
-     	//	console.log(goods.cellClick);
      		goods.arr[goods.cellClick].prCir2 = false;
      		goods.cellClick = good.id;
-     		//if (good.prCir2) {good.prCir2 = !good.prCir2}
+			goods.cellClickKodmet = goods.arr[goods.cellClick].kodmet
+     		//console.log(goods.cellClickKodmet);
+			 //if (good.prCir2) {good.prCir2 = !good.prCir2}
      		good.prCir3 = true;
      		setTimeout(() => good.prCir3 = false, 200);
      		good.prCir2 = true;
+			this.$emit('tablsNev', good.id);
+			
      	}
      }
 }

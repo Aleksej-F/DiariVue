@@ -77,7 +77,7 @@ a {
 
 @media all and (max-width: 600px) {
   .header_butn {
-    font-size: 20px;
+    font-size: 28px;
   }
 }
 
@@ -108,15 +108,17 @@ a {
   display: grid;
   -ms-grid-columns: 14.3% 14.3% 14.3% 14.3% 14.3% 14.3% 14.3%;
       grid-template-columns: 14.3% 14.3% 14.3% 14.3% 14.3% 14.3% 14.3%;
-  -ms-grid-rows: 14.3% 14.3% 14.3% 14.3% 14.3% 14.3%;
-      grid-template-rows: 14.3% 14.3% 14.3% 14.3% 14.3% 14.3%;
-  height: 560px;
+  -ms-grid-rows: 80px 80px 80px 80px 80px 80px;
+      grid-template-rows: 80px 80px 80px 80px 80px 80px;
+  height: 490px;
   width: 100%;
 }
 
 @media all and (max-width: 600px) {
   .hearid {
-    height: 360px;
+    -ms-grid-rows: 52px 52px 52px 52px 52px 52px;
+        grid-template-rows: 52px 52px 52px 52px 52px 52px;
+    height: 320px;
   }
 }
 
@@ -306,10 +308,9 @@ a {
 
 .oknostatist {
   position: relative;
-  width: 560px;
+  width: 622px;
   height: 780px;
   margin: 0 auto auto auto;
-  display: none;
   background-color: #4bb513;
 }
 
@@ -317,6 +318,7 @@ a {
   .oknostatist {
     font-size: 20px;
     width: 360px;
+    height: 500px;
   }
 }
 
@@ -353,8 +355,8 @@ a {
   padding: 10px;
   width: 40px;
   height: 20px;
-  top: 20px;
-  right: 0px;
+  top: 6px;
+  left: 318px;
   cursor: pointer;
 }
 
@@ -377,7 +379,7 @@ a {
 }
 
 .stattablis {
-  margin: 30px auto auto auto;
+  margin: 10px auto auto auto;
   width: 90%;
   display: -ms-grid;
   display: grid;

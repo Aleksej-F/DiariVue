@@ -55,7 +55,7 @@ a {
         text-align: center;
         font-size: 35px;
         @media all and (max-width: $brec-point1) {
-            font-size: 20px;
+            font-size: 28px;
         }
     }
 
@@ -80,11 +80,12 @@ a {
 .hearid {    /*  блок календаря */
     display: grid;
     grid-template-columns: 14.3% 14.3% 14.3% 14.3% 14.3% 14.3% 14.3%;
-    grid-template-rows: 14.3% 14.3% 14.3% 14.3% 14.3% 14.3%;
-    height: 560px;
+    grid-template-rows: 80px 80px 80px 80px 80px 80px;
+    height: 490px;
     width: 100%;
     @media all and (max-width: $brec-point1) {
-        height: 360px;
+        grid-template-rows: 52px 52px 52px 52px 52px 52px;
+        height: 320px;
     }
 }
 .ter {    /*  ячейка календаря */
@@ -210,14 +211,15 @@ a {
 }
 .oknostatist {
     position: relative;
-    width: 560px;
+    width: 622px;
     height: 780px;
     margin: 0 auto auto auto;
-    display: none;
+    
     background-color: #4bb513;
     @media all and (max-width: $brec-point1) {
         font-size: 20px;
         width: 360px;
+        height: 500px;
     }
     &_zakrstat{
         width: 100%;
@@ -244,9 +246,10 @@ a {
     padding: 10px;
     width: 40px;
     height: 20px;
-    top: 20px;
-    right: 0px;
+    top: 6px;
+    left: 318px;
     cursor: pointer;
+    
 }
 .statistzagl {
     margin-top: 30px;
@@ -262,7 +265,7 @@ a {
     }
 }
 .stattablis {
-    margin: 30px auto auto auto;
+    margin: 10px auto auto auto;
     width: 90%;
     display: grid;
     grid-template-columns: 20% 20% 20% 20% 20%;
