@@ -24,6 +24,7 @@
                 <div class="button" id="delz" v-on:click="delzapbegin"></div>
                 <div class="button" id="rashodi" v-on:click="rashodibegin" ></div>
                 <div class="button" id="stat" v-on:click="statistik" ></div>
+                <div class="button" id="stat" v-on:click="saveLocalStorage1" ></div>
             </div>
         </div>
         <Statistics 
