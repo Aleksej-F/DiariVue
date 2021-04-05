@@ -22,7 +22,7 @@
             <div class="block_button">
                 <div class="button" id="p4" v-on:click="getSaveLocalStorage"></div>
                 <div class="button" id="delz" v-on:click="delzapbegin"></div>
-                <div class="button" id="rashodi" v-on:click="rashodibegin" ></div>
+                <div class="button" id="rashodi"  ></div>
                 <div class="button" id="stat" v-on:click="statistik" ></div>
                 
             </div>
@@ -153,13 +153,53 @@ export default {
 			//this.monthTable.cellClick = jcheika;
 			
 		},
+        
+		generatingMonthData1(year,month,days,jcheika) {
+			this.titleHed = this.monthN[month][0] + " " + year;
+            this.statTitle = year;
+            // текущая дата 
+			let date3 = new Date(year,month,days);    
+			// устанавливаем дату для заполнения календаря
+			let date1 = new Date(year,month,days);  
+			// дата для определения смещения от первого числа
+			let date = new Date(date1.getFullYear(),date1.getMonth(),1);    
+			//устанавливаем дату для первой ячейки
+			date3.setDate(date.getDate() - this.smech[date.getDay()]);
+			//console.log('kodmet   ' + kodmet);			
+			
+			for (let n = 0; n < 42; n++) { 
+				
+               
+					
+					this.monthTable.arr[n].day= date3.getDate();
+                    // формируем ключ - дату
+                    this.monthTable.arr[n].kodmet= 'p'+ date3.getFullYear() + '' + this.monthN[date3.getMonth()][1] + '' + date3.getDate();
+					this.monthTable.arr[n].prMonth= date3.getMonth() !== date1.getMonth(); //признак текущего месяца
+					this.monthTable.arr[n].prSunday= date3.getDay() === 0; // признак выходного
+					this.monthTable.arr[n].prCir2= false; //признак стилей для анимации
+					this.monthTable.arr[n].prCir3= false;
+                    //признак текущего дня
+					this.monthTable.arr[n].prCurrentDay= ((date3.getMonth() === this.date2.getMonth())&&((date3.getDate() === this.date2.getDate())))
+              
+				
+                if (this.monthTable.arr[n].kodmet in this.saveRecordings) {
+                    this.monthTable.arr[n].recordsDay = this.saveRecordings[this.monthTable.arr[n].kodmet].couterRecordings; // кол-во записей в день
+                } else {this.monthTable.arr[n].recordsDay = 0}
+				date3.setDate(date3.getDate() + 1);
+				//console.log('item '+ item.day+ '  '+item.prMonth+ '    '+item.prSunday+ '    '+item.recordsDay);
+				
+			    //console.log('this.monthTable   '+this.monthTable[n].day)
+			}
+			//this.monthTable.cellClick = jcheika;
+			
+		},
 
 		//********************** ф-ия  клик по стрелке назад или вперед на окне календаря
 		clickNavHead(a){
 			this.date1.setMonth(this.date1.getMonth() + a);  // переопределяем месяц 
-			this.generatingMonthData(this.date1.getFullYear(),this.date1.getMonth(),this.date1.getDate(), 1);     // обращение к ф-ии для обновления данных месяца
-            this.tablsCreate();
-            this.tablDen()
+			this.generatingMonthData1(this.date1.getFullYear(),this.date1.getMonth(),this.date1.getDate(), 1);     // обращение к ф-ии для обновления данных месяца
+            this.tablsClear();
+           // this.tablDen()
 
         }, 
 		// ввод в полях Input
@@ -171,6 +211,12 @@ export default {
         tablsCreate(){
             for (let ii=0; ii<16; ii++) {
                 this.tabls[ii] = {id: ii, zar: ''};
+            }
+        },
+        // создание таблицы 
+        tablsClear(){
+            for (let ii=0; ii<16; ii++) {
+                this.tabls[ii].zar = '';
             }
         },
         tablsNev(ind) {
@@ -192,6 +238,8 @@ export default {
         getSaveLocalStorage() {
             console.log('saveLocalStorage ' )
             const prizn = this.monthTable.cellClickKodmet in this.saveRecordings;
+            console.log('saveLocalStorage ' + prizn )
+             console.log( this.tabls)
             if (!prizn) {
                 this.saveRecordings[this.monthTable.cellClickKodmet] = {tabls: []};
             }
