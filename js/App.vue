@@ -239,7 +239,7 @@ export default {
             console.log('saveLocalStorage ' )
             const prizn = this.monthTable.cellClickKodmet in this.saveRecordings;
             console.log('saveLocalStorage ' + prizn )
-             console.log( this.tabls)
+            console.log( this.tabls)
             if (!prizn) {
                 this.saveRecordings[this.monthTable.cellClickKodmet] = {tabls: []};
             }
@@ -252,7 +252,6 @@ export default {
                         if (pr === true) {couterRecordings += 1;}
                         if (this.tabls[ii-1].zar !== '') {counterPaid += 1;} 
                         pr = false;
-
                     }
                     this.saveRecordings[this.monthTable.cellClickKodmet].tabls[ii-1] = this.tabls[ii-1].zar
             }
@@ -270,6 +269,7 @@ export default {
             this.saveRecordings = JSON.parse(localStorage.getItem('recordings')); // спарсим в объект список записей
             if (this.saveRecordings===null) {this.saveRecordings = {}}
         },
+
         saveLocalStorage1() {
             let serialObj = JSON.stringify({});         // сериализуем  объект
             try {	
@@ -281,12 +281,14 @@ export default {
 		        }
 	        }
         },
+
         tablDraw(){
 	        let ter1 = document.getElementsByClassName('texti'); // выбираем все DIVы с классом texti в объект ter1     
             for (let ii=0; ii<16; ii++) {
                 ter1[ii].value = this.tabls[ii].zar;
             } 
         },
+
         saveLocalStorage() {
             let serialObj = JSON.stringify(this.saveRecordings);         // сериализуем  объект
                 try {	
@@ -298,6 +300,7 @@ export default {
                     }
                 }
         },
+
         delzapbegin() {
             let isprizn = confirm("Вы точно хотите удалить записи?");
             if (isprizn) {
@@ -308,13 +311,16 @@ export default {
                 this.tablsNev(this.monthTable.cellClick);
             }
         },
+
         statistik()  {
             this.calcStatistik(this.statTitle)
             this.basic = false;
         },
+
         zakrstatistik(){
             this.basic = true;
         },
+
         calcStatistik(e){
             let stschet = [0,0,0];
             let stschet_itig = [0,0,0];
