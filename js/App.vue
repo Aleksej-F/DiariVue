@@ -41,6 +41,7 @@ import HeaderNav from './components/HeaderNav.vue'
 import HeaderDay from './components/HeaderDay.vue'
 import GoodsList from './components/GoodList.vue'
 import Tablis from './components/Tablis.vue'
+import firebase from 'firebase/app'
 
 export default {
     name: 'App',
@@ -291,6 +292,7 @@ export default {
 
         saveLocalStorage() {
             let serialObj = JSON.stringify(this.saveRecordings);         // сериализуем  объект
+                this.createCategory(serialObj);
                 try {	
                     localStorage.setItem('recordings', serialObj); // запишем его в хранилище по ключу recordings
                 } 
@@ -361,6 +363,25 @@ export default {
             this.stter[stmes*5+3] = {zn:'', id:stmes * 5 + 3} ;
             this.stter[stmes*5+4] = {zn:'', id:stmes * 5 + 4} ;  
             
+        },
+        async createCategory(title) {
+            try {
+                const email = 'dir@mail.ru' 
+                const password ='123456'
+                await firebase.auth().signInWithEmailAndPassword(email, password)
+                console.log('серв  ', title)
+
+                const uid = firebase.auth().currentUser.uid 
+
+                //const uid = 'YM1nlK5W97Vt5BAnUD7RVCn2hQR2'
+                console.log('серв  ', uid)
+                //const category = await firebase.database().ref(`/users/${uid}/diary`).push(title)
+                await firebase.database().ref(`/users/${uid}/diary`).set(title)
+                
+                //return {title, limit, id: category.key}
+            } catch (e) { 
+               console.log('fgffff  ', e) 
+            }
         }
 
     },
