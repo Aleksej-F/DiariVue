@@ -1,7 +1,3 @@
-'use strict';
- //--watch
-
-
 import Vue from 'vue'
 import App from './App.vue'
 //import './style.css'
@@ -28,6 +24,7 @@ firebase.initializeApp({
 
 
 new Vue({
+    
     render: h => h(App),
 }).$mount('#app');
 

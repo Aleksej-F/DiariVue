@@ -36,12 +36,13 @@
     </div>   
 </template>
 <script>
+import firebase from 'firebase/app'
+
 import Statistics from './components/Statistics.vue'
 import HeaderNav from './components/HeaderNav.vue'
 import HeaderDay from './components/HeaderDay.vue'
 import GoodsList from './components/GoodList.vue'
 import Tablis from './components/Tablis.vue'
-import firebase from 'firebase/app'
 
 export default {
     name: 'App',
@@ -92,6 +93,8 @@ export default {
     created() {
         //this.saveLocalStorage1() 
         // обращаемся к фун-ии для считывания списка записей
+        //this.firebaseLogin()
+        this.fetchRecordings()
         this.loadingLocalStorage()
         this.tablsCreate()
         // обращаемся к фун-ии для заполнения месяца данными
@@ -292,7 +295,7 @@ export default {
 
         saveLocalStorage() {
             let serialObj = JSON.stringify(this.saveRecordings);         // сериализуем  объект
-                this.createCategory(serialObj);
+                this.firebaseSaveRecordings(serialObj);
                 try {	
                     localStorage.setItem('recordings', serialObj); // запишем его в хранилище по ключу recordings
                 } 
@@ -364,12 +367,9 @@ export default {
             this.stter[stmes*5+4] = {zn:'', id:stmes * 5 + 4} ;  
             
         },
-        async createCategory(title) {
+        async firebaseSaveRecordings(title) {
             try {
-                const email = 'dir@mail.ru' 
-                const password ='123456'
-                await firebase.auth().signInWithEmailAndPassword(email, password)
-                console.log('серв  ', title)
+                
 
                 const uid = firebase.auth().currentUser.uid 
 
@@ -382,7 +382,39 @@ export default {
             } catch (e) { 
                console.log('fgffff  ', e) 
             }
-        }
+        },
+        async fetchRecordings() {
+            
+            try {
+               
+                await this.firebaseLogin()
+                
+                console.log('загрузка записей  ')
+                const uid = firebase.auth().currentUser.uid
+                const recordings = (await firebase.database().ref(`/users/${uid}/diary`).once('value')).val() || {}
+                console.log('загрузка записей   ',JSON.parse(recordings))
+                let t=0
+                for (let key in JSON.parse(recordings)) { 
+                    t++
+                     console.log(key)
+                }
+                console.log('загрузка записей кол-во:  ',t)
+                // return Object.keys(categories).map(key => ({...categories[key], id: key}))
+            } catch (e) {
+            console.log('fgffff  ', e) 
+            }
+        },
+        async firebaseLogin() {
+            try {
+                const email = 'dir@mail.ru' 
+                const password ='123456'
+                await firebase.auth().signInWithEmailAndPassword(email, password)
+                console.log('залогинился  ')
+            } catch (e) {
+            console.log('fgffff  ', e) 
+            }
+        },
+
 
     },
     
