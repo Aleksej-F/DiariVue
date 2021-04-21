@@ -6,7 +6,7 @@
                 :title="titleHed"
             /> 
             <HeaderDay
-                :title="dayMonth"
+               
             />              
             <GoodsList 
                 :goods="monthTable"
@@ -66,10 +66,9 @@ export default {
             date2 : new Date(),  // текущая дата
             date1 : new Date(),  // текущая дата для изменения
             smech : [6, 7, 1, 2, 3, 4, 5],  // смещение нумерации дней
-            jacheka : '1',
             tabls :[],  // массив для хранения записей таблицы
             
-            dayMonth : ['ПН','ВТ','СР','ЧТ','ПТ','СБ','ВС',],
+            
             monthN : {   // Название месяца
                 0: ["Январь", "01"],
                 1: ["Февраль", "02"],
@@ -91,110 +90,66 @@ export default {
         }
     },
     created() {
-        //this.saveLocalStorage1() 
+        
         // обращаемся к фун-ии для считывания списка записей
-        //this.firebaseLogin()
         this.fetchRecordings()
         this.loadingLocalStorage()
         this.tablsCreate()
+        this.generatingMonthData()
         // обращаемся к фун-ии для заполнения месяца данными
-        this.generatingMonthData(this.date1.getFullYear(),this.date1.getMonth(),this.date1.getDate(),this.jacheka);  
+        this.generatingMonthData1(this.date1.getFullYear(),this.date1.getMonth(),this.date1.getDate(),this.jacheka);  
     },
     computed: {
         
     },
     methods: {
-        // ф-ия определения дня на заданное количество дней назад
- 		getDateAgo(date, days){
-		 	let dateCopy = new Date(date);
-			dateCopy.setDate(date.getDate() - days);
-			return dateCopy.getDate();
-		},
-		// ф-ия определения последнего дня месяца
-		getLastDayOfMonth(year, month){
-			let date = new Date(year, month + 1, 0);
-			return date.getDate();
-		},
+       
 
-		generatingMonthData(year,month,days,jcheika) {
-			this.titleHed = this.monthN[month][0] + " " + year;
-            this.statTitle = year;
-            // текущая дата 
-			let date3 = new Date(year,month,days);    
-			// устанавливаем дату для заполнения календаря
-			let date1 = new Date(year,month,days);  
-			// дата для определения смещения от первого числа
-			let date = new Date(date1.getFullYear(),date1.getMonth(),1);    
-			//устанавливаем дату для первой ячейки
-			date3.setDate(date.getDate() - this.smech[date.getDay()]);
-			//console.log('kodmet   ' + kodmet);			
-			this.monthTable.arr = [];
-			const min = 0;
-			const max = 4;
+		generatingMonthData() {
 			for (let n = 0; n < 42; n++) { 
-				
-                let item = {
+				let item = {
 					id: n,
-					day: date3.getDate(),
-                    // формируем ключ - дату
-                    kodmet: 'p'+ date3.getFullYear() + '' + this.monthN[date3.getMonth()][1] + '' + date3.getDate(),
-					prMonth: date3.getMonth() !== date1.getMonth(), //признак текущего месяца
-					prSunday: date3.getDay() === 0, // признак выходного
+					day: 1,
+                    kodmet: '',// формируем ключ - дату
+					prMonth: false, //признак текущего месяца
+					prSunday: false, // признак выходного
 					prCir2: false, //признак стилей для анимации
 					prCir3: false,
-                    //признак текущего дня
-					prCurrentDay: ((date3.getMonth() === this.date2.getMonth())&&((date3.getDate() === this.date2.getDate())))
+                    prCurrentDay: false,//признак текущего дня
+                    recordsDay:0
                 };
-				
-                if (item.kodmet in this.saveRecordings) {
-                    item.recordsDay = this.saveRecordings[item.kodmet].couterRecordings; // кол-во записей в день
-                } else {item.recordsDay = 0}
-				date3.setDate(date3.getDate() + 1);
-				//console.log('item '+ item.day+ '  '+item.prMonth+ '    '+item.prSunday+ '    '+item.recordsDay);
 				this.monthTable.arr.push({ ...item});
-			    //console.log('this.monthTable   '+this.monthTable[n].day)
 			}
-			//this.monthTable.cellClick = jcheika;
-			
-		},
-        
-		generatingMonthData1(year,month,days,jcheika) {
+        },
+        // 
+		generatingMonthData1(year,month,days) {
 			this.titleHed = this.monthN[month][0] + " " + year;
             this.statTitle = year;
-            // текущая дата 
-			let date3 = new Date(year,month,days);    
-			// устанавливаем дату для заполнения календаря
+                //  дата активного месяца
 			let date1 = new Date(year,month,days);  
-			// дата для определения смещения от первого числа
-			let date = new Date(date1.getFullYear(),date1.getMonth(),1);    
-			//устанавливаем дату для первой ячейки
-			date3.setDate(date.getDate() - this.smech[date.getDay()]);
-			//console.log('kodmet   ' + kodmet);			
+                // дата для определения смещения от первого числа
+			let date = new Date(year,month,1);    
+			    // дата для первой ячейки
+            let date3 = new Date(year,month,days); 
+			date3.setDate(date.getDate() - this.smech[date.getDay()]);	
 			
 			for (let n = 0; n < 42; n++) { 
-				
-               
-					
-					this.monthTable.arr[n].day= date3.getDate();
+				this.monthTable.arr[n].day= date3.getDate();
                     // формируем ключ - дату
-                    this.monthTable.arr[n].kodmet= 'p'+ date3.getFullYear() + '' + this.monthN[date3.getMonth()][1] + '' + date3.getDate();
-					this.monthTable.arr[n].prMonth= date3.getMonth() !== date1.getMonth(); //признак текущего месяца
-					this.monthTable.arr[n].prSunday= date3.getDay() === 0; // признак выходного
-					this.monthTable.arr[n].prCir2= false; //признак стилей для анимации
-					this.monthTable.arr[n].prCir3= false;
+                this.monthTable.arr[n].kodmet= 'p'+ date3.getFullYear() + '' + this.monthN[date3.getMonth()][1] + '' + date3.getDate();
+				this.monthTable.arr[n].prMonth= date3.getMonth() !== date1.getMonth(); //признак текущего месяца
+				this.monthTable.arr[n].prSunday= date3.getDay() === 0; // признак выходного
+				this.monthTable.arr[n].prCir2= false; //признак стилей для анимации
+				this.monthTable.arr[n].prCir3= false;
                     //признак текущего дня
-					this.monthTable.arr[n].prCurrentDay= ((date3.getMonth() === this.date2.getMonth())&&((date3.getDate() === this.date2.getDate())))
-              
-				
+				this.monthTable.arr[n].prCurrentDay= ((date3.getMonth() === this.date2.getMonth())&&((date3.getDate() === this.date2.getDate())))
+                    // проверка кол-ва записей в день
                 if (this.monthTable.arr[n].kodmet in this.saveRecordings) {
-                    this.monthTable.arr[n].recordsDay = this.saveRecordings[this.monthTable.arr[n].kodmet].couterRecordings; // кол-во записей в день
+                    this.monthTable.arr[n].recordsDay = this.saveRecordings[this.monthTable.arr[n].kodmet].couterRecordings; 
                 } else {this.monthTable.arr[n].recordsDay = 0}
 				date3.setDate(date3.getDate() + 1);
-				//console.log('item '+ item.day+ '  '+item.prMonth+ '    '+item.prSunday+ '    '+item.recordsDay);
-				
-			    //console.log('this.monthTable   '+this.monthTable[n].day)
 			}
-			//this.monthTable.cellClick = jcheika;
+			
 			
 		},
 
@@ -211,17 +166,24 @@ export default {
            	this.tabls[e.target.attributes.data.value].zar = e.target.value;
             
 		},
-        // создание таблицы 
+        // создание таблицы дублирования информ Input
         tablsCreate(){
             for (let ii=0; ii<16; ii++) {
                 this.tabls[ii] = {id: ii, zar: ''};
             }
         },
-        // создание таблицы 
+        // очистка таблицы дублирования информ Input
         tablsClear(){
             for (let ii=0; ii<16; ii++) {
                 this.tabls[ii].zar = '';
             }
+            this.tablDraw()
+        },
+        tablDraw(){
+	        let ter1 = document.getElementsByClassName('texti'); // выбираем все DIVы с классом texti в объект ter1     
+            for (let ii=0; ii<16; ii++) {
+                ter1[ii].value = this.tabls[ii].zar;
+            } 
         },
         tablsNev(ind) {
             const date = this.monthTable.arr[ind].kodmet;          
@@ -286,12 +248,7 @@ export default {
 	        }
         },
 
-        tablDraw(){
-	        let ter1 = document.getElementsByClassName('texti'); // выбираем все DIVы с классом texti в объект ter1     
-            for (let ii=0; ii<16; ii++) {
-                ter1[ii].value = this.tabls[ii].zar;
-            } 
-        },
+       
 
         saveLocalStorage() {
             let serialObj = JSON.stringify(this.saveRecordings);         // сериализуем  объект
@@ -308,12 +265,13 @@ export default {
 
         delzapbegin() {
             let isprizn = confirm("Вы точно хотите удалить записи?");
+            
             if (isprizn) {
-                delete  this.saveRecordings[this.monthTable.cellClickKodmet];
+                delete  this.saveRecordings[this.monthTable.cellClickKodmet];// удаляем запись из списка записей
                 this.saveLocalStorage();
                 this.monthTable.arr[this.monthTable.cellClick].recordsDay = 0;
                 console.log(this.monthTable.cellClick)
-                this.tablsNev(this.monthTable.cellClick);
+                this. tablsClear;
             }
         },
 
@@ -369,16 +327,9 @@ export default {
         },
         async firebaseSaveRecordings(title) {
             try {
-                
-
                 const uid = firebase.auth().currentUser.uid 
-
-                //const uid = 'YM1nlK5W97Vt5BAnUD7RVCn2hQR2'
                 console.log('серв  ', uid)
-                //const category = await firebase.database().ref(`/users/${uid}/diary`).push(title)
                 await firebase.database().ref(`/users/${uid}/diary`).set(title)
-                
-                //return {title, limit, id: category.key}
             } catch (e) { 
                console.log('fgffff  ', e) 
             }

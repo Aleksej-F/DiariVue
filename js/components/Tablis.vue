@@ -7,8 +7,9 @@
 			<div class="tabli"
 				v-for="(good) in goods"
 				:key="good.id"
-			><input type="text" class="texti" :data="good.id"
-				v-model="good.zar"
+			>
+				<input type="text" class="texti" :data="good.id"
+					v-model="good.zar"
 				
 			/></div>
 			
