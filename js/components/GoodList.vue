@@ -32,8 +32,7 @@ export default {
      		setTimeout(() => good.prCir3 = false, 200);
      		good.prCir2 = true;
 			this.$emit('tablsNev', good.id);
-			
-     	}
+		}
      }
 }
 </script>

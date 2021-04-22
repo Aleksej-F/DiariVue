@@ -4,24 +4,20 @@
 			<div class="tabli">Ф.И.О.</div>
 			<div class="tabli">Телефон</div>
 			<div class="tabli">Оплата</div>
-			<div class="tabli"
-				v-for="(good) in goods"
-				:key="good.id"
-			>
-				<input type="text" class="texti" :data="good.id"
+			
+				<input type="text" class="texti" 
+					v-for="(good, index) in goods"
+					:key="good.id"
 					v-model="good.zar"
-				
-			/></div>
+					:data="index"/>
 			
 		</div>
 </template>
 <script>
 export default {
     props: ['goods'],
-    methods: {
-		inputKey(e) {
-			this.$emit('addtask', e);
-		},
-	 }
+   	
+	
+	
 }
 </script>

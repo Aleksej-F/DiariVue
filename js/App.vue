@@ -1,44 +1,43 @@
 <template>
     <div id="app" class="wrapper">
-        <div v-if="basic">
-            <HeaderNav
-                v-on:clicknav="clickNavHead"
-                :title="titleHed"
-            /> 
-            <HeaderDay
-               
-            />              
-            <GoodsList 
-                :goods="monthTable"
-                v-on:tablsNev="tablsNev"
-            />
-            <div class="shape">
-            <Tablis
-                v-on:addtask="tablsInput"
-                :goods="tabls"
-            /> 
-            </div> 
-            <div class="razdel"> </div>
-            <div class="block_button">
-                <div class="button" id="p4" v-on:click="getSaveLocalStorage"></div>
-                <div class="button" id="delz" v-on:click="delzapbegin"></div>
-                <div class="button" id="rashodi"  ></div>
-                <div class="button" id="stat" v-on:click="statistik" ></div>
-                
-            </div>
-        </div>
+        
+        <Calendar
+            v-if="basic === 'o'"
+            
+            :title="titleHed"
+            v-on:clicknav="clickNavHead"
+            
+            :goods="monthTable"
+            v-on:tablsNev="tablsNev"
+            
+            :tabls="tabls"
+
+            v-on:getSaveLocalStorage="getSaveLocalStorage"
+            v-on:delzapbegin="delzapbegin"
+            v-on:expenses="openExpenses"
+            v-on:statistik="openStatistik"
+        />
+       
         <Statistics 
             :title="statTitle"
             :stter="stter"
             v-on:statClick="calcStatistik"
-            v-on:zakrstatistik="zakrstatistik"
-            v-else/>
+            v-on:zakrstatistik="zakrStatistik"
+            v-else-if="basic === 's'"/>
+        
+        <Expenses
+            v-else-if="basic === 'r'"
+            :title="statTitle"
+            v-on:zakrExpenses="zakrExpenses"
+        />
     </div>   
 </template>
 <script>
 import firebase from 'firebase/app'
 
+import Calendar from './components/Calendar.vue'
 import Statistics from './components/Statistics.vue'
+import Expenses from './components/Expenses.vue'
 import HeaderNav from './components/HeaderNav.vue'
 import HeaderDay from './components/HeaderDay.vue'
 import GoodsList from './components/GoodList.vue'
@@ -51,7 +50,9 @@ export default {
         HeaderDay,
         GoodsList,
         Tablis,
-        Statistics
+        Statistics,
+        Expenses,
+        Calendar,
     },
 
     data() {
@@ -68,7 +69,6 @@ export default {
             smech : [6, 7, 1, 2, 3, 4, 5],  // смещение нумерации дней
             tabls :[],  // массив для хранения записей таблицы
             
-            
             monthN : {   // Название месяца
                 0: ["Январь", "01"],
                 1: ["Февраль", "02"],
@@ -84,7 +84,7 @@ export default {
                 11: ["Декабрь", "12"],
             },            
             saveRecordings: {},
-            basic: true,
+            basic: 'r',
             stter:[],
 
         }
@@ -92,9 +92,9 @@ export default {
     created() {
         
         // обращаемся к фун-ии для считывания списка записей
-        this.fetchRecordings()
+       // this.fetchRecordings()
         this.loadingLocalStorage()
-        this.tablsCreate()
+        
         this.generatingMonthData()
         // обращаемся к фун-ии для заполнения месяца данными
         this.generatingMonthData1(this.date1.getFullYear(),this.date1.getMonth(),this.date1.getDate(),this.jacheka);  
@@ -104,7 +104,6 @@ export default {
     },
     methods: {
        
-
 		generatingMonthData() {
 			for (let n = 0; n < 42; n++) { 
 				let item = {
@@ -150,59 +149,35 @@ export default {
 				date3.setDate(date3.getDate() + 1);
 			}
 			
-			
 		},
 
 		//********************** ф-ия  клик по стрелке назад или вперед на окне календаря
 		clickNavHead(a){
 			this.date1.setMonth(this.date1.getMonth() + a);  // переопределяем месяц 
 			this.generatingMonthData1(this.date1.getFullYear(),this.date1.getMonth(),this.date1.getDate(), 1);     // обращение к ф-ии для обновления данных месяца
-            this.tablsClear();
+            //this.tablsClear();
            // this.tablDen()
 
         }, 
-		// ввод в полях Input
-        tablsInput(e) { 
-           	this.tabls[e.target.attributes.data.value].zar = e.target.value;
-            
-		},
-        // создание таблицы дублирования информ Input
-        tablsCreate(){
-            for (let ii=0; ii<16; ii++) {
-                this.tabls[ii] = {id: ii, zar: ''};
-            }
-        },
-        // очистка таблицы дублирования информ Input
-        tablsClear(){
-            for (let ii=0; ii<16; ii++) {
-                this.tabls[ii].zar = '';
-            }
-            this.tablDraw()
-        },
-        tablDraw(){
-	        let ter1 = document.getElementsByClassName('texti'); // выбираем все DIVы с классом texti в объект ter1     
-            for (let ii=0; ii<16; ii++) {
-                ter1[ii].value = this.tabls[ii].zar;
-            } 
-        },
+		
         tablsNev(ind) {
             const date = this.monthTable.arr[ind].kodmet;          
             const prizn = date in this.saveRecordings;
-            let tabl= [];
-            if (prizn) {
-                tabl =  this.saveRecordings[date].tabls 
-            }
+            
+            this.tabls =[]
+            
             for (let ii=0; ii<16; ii++) {
                 if (prizn) {
-                    this.tabls[ii].zar = tabl[ii]; 
+                    this.tabls[ii] = {id: date + ii, zar:  this.saveRecordings[date].tabls[ii]};
                 } else {
-                    this.tabls[ii].zar =''
+                    this.tabls[ii] = {id: date + ii, zar: ''};
                 }
             } 
-            this.tablDraw()
+            //console.log('ggggggg   ', this.tabls)
         },
+        
         getSaveLocalStorage() {
-            console.log('saveLocalStorage ' )
+            //console.log('saveLocalStorage ' )
             const prizn = this.monthTable.cellClickKodmet in this.saveRecordings;
             console.log('saveLocalStorage ' + prizn )
             console.log( this.tabls)
@@ -223,10 +198,11 @@ export default {
             }
             this.saveRecordings[this.monthTable.cellClickKodmet].counterPaid = counterPaid;
             this.saveRecordings[this.monthTable.cellClickKodmet].couterRecordings = couterRecordings;
-            console.log(this.saveRecordings[this.monthTable.cellClickKodmet])
+            console.log('массив записей дня для сохранения  ',this.saveRecordings[this.monthTable.cellClickKodmet])
             if (couterRecordings > 0) {
                 this.saveLocalStorage()
-            }
+                console.log('сохранил')
+            } else { console.log('не стал сохранять')}
            this.loadingLocalStorage()
            this.monthTable.arr[this.monthTable.cellClick].recordsDay = couterRecordings;
         },
@@ -236,23 +212,9 @@ export default {
             if (this.saveRecordings===null) {this.saveRecordings = {}}
         },
 
-        saveLocalStorage1() {
-            let serialObj = JSON.stringify({});         // сериализуем  объект
-            try {	
-		        localStorage.setItem('recordings', serialObj); // запишем его в хранилище по ключу recordings
-	        } 
-	        catch (e) {
-		        if (e == QUOTA_EXCEEDED_ERR) {
-			        alert('Превышен лимит памяти');
-		        }
-	        }
-        },
-
-       
-
         saveLocalStorage() {
             let serialObj = JSON.stringify(this.saveRecordings);         // сериализуем  объект
-                this.firebaseSaveRecordings(serialObj);
+//                this.firebaseSaveRecordings(serialObj);
                 try {	
                     localStorage.setItem('recordings', serialObj); // запишем его в хранилище по ключу recordings
                 } 
@@ -275,15 +237,20 @@ export default {
             }
         },
 
-        statistik()  {
+        openStatistik()  {
             this.calcStatistik(this.statTitle)
-            this.basic = false;
+            this.basic = 's';
         },
 
-        zakrstatistik(){
-            this.basic = true;
+        zakrStatistik(){
+            this.basic = 'o';
         },
-
+        openExpenses() {
+            this.basic = 'r';
+        },
+        zakrExpenses(){
+            this.basic = 'o';
+        },
         calcStatistik(e){
             let stschet = [0,0,0];
             let stschet_itig = [0,0,0];
