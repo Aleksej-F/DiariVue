@@ -302,7 +302,9 @@ a {
    background-color:rgb(144, 202, 241);
 }
 
-.expenses__head{
+.expenses {
+    position: relative;
+    &__head{
     position: relative;
     display: flex;
     justify-content: center;
@@ -310,15 +312,28 @@ a {
     height: 50px;
     font-size: 35px;
     background-color: #4bb513;
-    &-zakr{
-        position: absolute;
-        padding: 10px;
-        width: 40px;
-        height: 20px;
-        top:-2px;
-        left: 510px;
-        font-size: 30px;
-        cursor: pointer;
+        &-zakr{
+            position: absolute;
+            padding: 10px;
+            width: 40px;
+            height: 20px;
+            top:-2px;
+            left: 510px;
+            font-size: 30px;
+            cursor: pointer;
 
+        }
+    }
+    &__tablis{
+        margin: 10px auto auto auto;
+        width: 100%;
+        &-tabl{
+            height: 25px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 20% 60% 20% ;
+            text-align: center;
+        }
+        
     }
 }

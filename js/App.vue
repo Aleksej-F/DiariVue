@@ -27,8 +27,10 @@
         
         <Expenses
             v-else-if="basic === 'r'"
-            :title="statTitle"
+            :title="titleHed"
+            :expenses="saveExpenses"
             v-on:zakrExpenses="zakrExpenses"
+            
         />
     </div>   
 </template>
@@ -67,7 +69,7 @@ export default {
             date2 : new Date(),  // текущая дата
             date1 : new Date(),  // текущая дата для изменения
             smech : [6, 7, 1, 2, 3, 4, 5],  // смещение нумерации дней
-            tabls :[],  // массив для хранения записей таблицы
+            tabls :[],  // массив для хранения записей таблицы календаря
             
             monthN : {   // Название месяца
                 0: ["Январь", "01"],
@@ -84,6 +86,9 @@ export default {
                 11: ["Декабрь", "12"],
             },            
             saveRecordings: {},
+            saveExpenses: {
+                arr:[]
+            },
             basic: 'r',
             stter:[],
 
@@ -94,7 +99,7 @@ export default {
         // обращаемся к фун-ии для считывания списка записей
        // this.fetchRecordings()
         this.loadingLocalStorage()
-        
+        console.log('app saveExpenses.arr   ' + this.saveExpenses.arr.length)
         this.generatingMonthData()
         // обращаемся к фун-ии для заполнения месяца данными
         this.generatingMonthData1(this.date1.getFullYear(),this.date1.getMonth(),this.date1.getDate(),this.jacheka);  
@@ -150,7 +155,10 @@ export default {
 			}
 			
 		},
+        calsExpenses(year,month,){
+            this.titleHed = this.monthN[month][0] + " " + year;
 
+        },
 		//********************** ф-ия  клик по стрелке назад или вперед на окне календаря
 		clickNavHead(a){
 			this.date1.setMonth(this.date1.getMonth() + a);  // переопределяем месяц 
@@ -159,6 +167,7 @@ export default {
            // this.tablDen()
 
         }, 
+        // клик по стрелке назад или вперед на окне расходов
 		
         tablsNev(ind) {
             const date = this.monthTable.arr[ind].kodmet;          
@@ -241,7 +250,6 @@ export default {
             this.calcStatistik(this.statTitle)
             this.basic = 's';
         },
-
         zakrStatistik(){
             this.basic = 'o';
         },

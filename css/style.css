@@ -428,6 +428,10 @@ a {
   background-color: #90caf1;
 }
 
+.expenses {
+  position: relative;
+}
+
 .expenses__head {
   position: relative;
   display: -webkit-box;
@@ -453,5 +457,20 @@ a {
   left: 510px;
   font-size: 30px;
   cursor: pointer;
+}
+
+.expenses__tablis {
+  margin: 10px auto auto auto;
+  width: 100%;
+}
+
+.expenses__tablis-tabl {
+  height: 25px;
+  width: 100%;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 20% 60% 20%;
+      grid-template-columns: 20% 60% 20%;
+  text-align: center;
 }
 /*# sourceMappingURL=style.css.map */
