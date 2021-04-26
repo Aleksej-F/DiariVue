@@ -16,16 +16,17 @@
                 <p>На что</p>
                 <p>Сумма</p>
             </div>
-             <div class="expenses__tablis-tabl"
-                v-for="(item,index) in expensesFilter"
-                :data="index"
+            
                 
-             >
              
-                <input type="text" class="texti" v-model="item.date" v-on:input="expensesInputKey" :data="item.id[0]">
-                <input type="text" class="texti" v-model="item.category" v-on:input="expensesInputKey" :data="item.id[1]">
-                <input type="text" class="texti" v-model="item.amount" v-on:input="expensesInputKey" :data="item.id[2]">
-            </div>
+                <div class="expenses__tablis-tabl" v-for="(item) in expensesFilter" :key="item.idi">
+                
+                    <input type="text" class="texti" v-model="item.date"  >
+                    <input type="text" class="texti" v-model="item.category" >
+                    <input type="text" class="texti" v-model="item.amount" >
+                </div>
+            
+
              <div class="expenses__tablis-tabl"
              >
                 <input type="text" class="texti">
@@ -33,9 +34,6 @@
                 <input type="text" class="texti">
             </div>
         </div>
-
-
-
         <div class="razdel"> </div>
         <div class="block_button">
             <div class="button" v-on:click="expensesSave"></div>
@@ -51,83 +49,93 @@
 import HeaderNav from './HeaderNav.vue'
 import updateTitle from '.././func/update.js'
 export default {
-    props: ['expenses','stter'],
+    props: ['expenses'],
     data() {
         return {
             title:'',
             dateExpenses: new Date(),  // текущая дата для изменения
-            //tablsExpenses:[],  // массив для хранения записей таблицы расходов
-           //date:{ year, month}
-           tablExpenses:[],
+            tablExpenses:[],
+            expensesFilter:[]
         }
     },
     created() {
-       console.log('Expenses Expenses.arr  created  ' + this.expenses.arr.length) 
-       
+       this.loadingExpensesLocalStorage() //считываем расходы из LocalStorage
+       this.calcExpensesFilter()
     },
     mounted(){
-       //this.tablsExpenses = this.expensesFilter()
-        this.title =  updateTitle.updateTitle(this.dateExpenses)
-        console.log('Expenses Expenses.arr  mounted  ' + this.expenses.arr.length)
+        this.title =  updateTitle.updateTitle(this.dateExpenses)  // обновляем заголовок
     },
     components: {
         HeaderNav,
     },
     computed: {
-        expensesFilter() {
-            const kod = 'p' + updateTitle.updateMonth(this.dateExpenses)+ this.dateExpenses.getFullYear()
-            const prizn = kod in this.expenses.arr;
-            let c = 1
-            let expens =[]
+       
+    },
+    methods: {  
+        calcExpensesFilter() {
+            const kod = 'p' + updateTitle.updateMonth(this.dateExpenses) + this.dateExpenses.getFullYear()
+            const prizn = kod in this.expenses;
+            this.expensesFilter =[]
             if (!prizn) { 
                 for (let index = 0; index < 20; index++) {
-                    expens.push({date:'',category:'',amount:'',id:[c,c+1,c+2]})
-                    c +=3
+                    this.expensesFilter.push({date:'', category:'', amount:'',  idi: kod + index})
                 }
-            
             } else {
-            
-                console.log('this expenses   ' + this.expenses.arr[kod].length)
-                
-                if (this.expenses.arr[kod].length < 20) {
-                    for (let index = 0; index < this.expenses.arr[kod].length; index++) {
-                        expens.push(this.expenses.arr[kod][index])
-                    }
-                    for (let index = this.expenses.arr[kod].length; index < 20; index++) {
-                        expens.push({date:'',category:'',amount:''})
-                    
-                        
-                    }
+                for (let index = 0; index < this.expenses[kod].tablis.length; index++) {
+                    this.expensesFilter.push(this.expenses[kod].tablis[index])
                 }
             }
-            console.log('expens   ' + expens)
-            return expens
-        }
-    },
-    methods: {    
+        },
+        
         statClickNavHead(e){
-            
             this.dateExpenses.setMonth(this.dateExpenses.getMonth() + e);  // переопределяем месяц 
             this.title =  updateTitle.updateTitle(this.dateExpenses)
-           
+            this.calcExpensesFilter()
         },
+
         expensesSave(){
             const kod = 'p' + updateTitle.updateMonth(this.dateExpenses)+ this.dateExpenses.getFullYear()
-            const prizn = kod in this.expenses.arr;
-            if (!prizn) {
-                this.expenses.arr.push({[kod]:[]})
-
-                for (let index = 0; index < 20; index++) {
-                   this.expenses.arr[kod].push( this.expensesFilter[index] )  
-                }
-            }
-        },
-        expensesInputKey(e){
-            console.log(e.target.value)
-            console.log(e.target.attributes.data.value)
+            const prizn = kod in this.expenses;
+            console.log('this.tablExpenses  ' + this.tablExpenses)
             
-        }
-        //calsExpenses(year,month)
+            if (!prizn) {
+                this.expenses[kod] = {tablis: []}
+            }
+            this.expenses[kod].totalAmount = 0
+            let a = 0
+            for (let index = 0; index < 20; index++) {
+                   this.expenses[kod].tablis[index] = {
+                       date: this.expensesFilter[index].date,
+                       category: this.expensesFilter[index].category,
+                       amount: this.expensesFilter[index].amount
+                    } 
+                    this.expenses[kod].totalAmount = this.expenses[kod].totalAmount + Number(this.expensesFilter[index].amount)
+                    a += 3 
+            }
+            console.log('this.tablExpenses  ' + this.tablExpenses)
+            console.log('this.expenses ' + this.expenses[kod])
+            this.saveExpensesLocalStorage()
+        },
+        
+        saveExpensesLocalStorage() {
+            let serialObj = JSON.stringify(this.expenses);         // сериализуем  объект
+//                this.firebaseSaveRecordings(serialObj);
+                try {	
+                    localStorage.setItem('expenses', serialObj); // запишем его в хранилище по ключу recordings
+                } 
+                catch (e) {
+                    if (e == QUOTA_EXCEEDED_ERR) {
+                        alert('Превышен лимит памяти');
+                    }
+                }
+        },
+        loadingExpensesLocalStorage() {
+            this.expenses = JSON.parse(localStorage.getItem('expenses')); // спарсим в объект список записей
+            if (this.expenses===null) {this.expenses = {}}
+        },
+       
+
+        
         
     }
 }

@@ -312,6 +312,9 @@ a {
     height: 50px;
     font-size: 35px;
     background-color: #4bb513;
+    @media all and (max-width: $brec-point1) {
+        font-size: 30px;
+    }
         &-zakr{
             position: absolute;
             padding: 10px;
@@ -321,7 +324,11 @@ a {
             left: 510px;
             font-size: 30px;
             cursor: pointer;
-
+            @media all and (max-width: $brec-point1) {
+                top: -8px;
+                left: 325px;
+                font-size: 25px;
+            }
         }
     }
     &__tablis{
@@ -331,8 +338,13 @@ a {
             height: 25px;
             width: 100%;
             display: grid;
-            grid-template-columns: 20% 60% 20% ;
+            grid-template-columns: 12% 67% 20% ;
             text-align: center;
+        }
+        &-texti {
+            border: 1px solid black;
+            width: 100%;
+            padding: 0 0px 0 0px;
         }
         
     }

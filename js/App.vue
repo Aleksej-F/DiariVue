@@ -85,11 +85,11 @@ export default {
                 10: ["Ноябрь", "11"],
                 11: ["Декабрь", "12"],
             },            
-            saveRecordings: {},
-            saveExpenses: {
-                arr:[]
-            },
-            basic: 'r',
+            saveRecordings: {},     //объект с записями
+            saveExpenses: {},         // объект с расходами
+                
+            
+            basic: 'r', // признак активного окна
             stter:[],
 
         }
@@ -99,7 +99,7 @@ export default {
         // обращаемся к фун-ии для считывания списка записей
        // this.fetchRecordings()
         this.loadingLocalStorage()
-        console.log('app saveExpenses.arr   ' + this.saveExpenses.arr.length)
+        console.log('app saveExpenses.arr   ' + this.saveExpenses.length)
         this.generatingMonthData()
         // обращаемся к фун-ии для заполнения месяца данными
         this.generatingMonthData1(this.date1.getFullYear(),this.date1.getMonth(),this.date1.getDate(),this.jacheka);  
@@ -260,8 +260,8 @@ export default {
             this.basic = 'o';
         },
         calcStatistik(e){
-            let stschet = [0,0,0];
-            let stschet_itig = [0,0,0];
+            let stschet = [0,0,0,0,0];
+            let stschet_itig = [0,0,0,0,0];
             this.statTitle = e;
             let stmes=0
             for (stmes=0; stmes<12; stmes++){
@@ -282,22 +282,31 @@ export default {
                         stschet[2] += this.saveRecordings[stkodmet].couterRecordings; //счетчик по колличеству записанных
                     }
                 }
+                let stkod ='p'  + this.monthN[stmes][1] +  this.statTitle  ; // формируем ключ - дату
+                const prizn = stkod in this.saveExpenses
+                console.log(this.saveExpenses+"        kk   " + prizn)
+                if (prizn) {
+                    stschet[3] = this.saveExpenses[stkod].totalAmount
+                    stschet[4] = stschet[1] - this.saveExpenses[stkod].totalAmount
+                }
                 this.stter[stmes*5] = {zn:this.monthN[stmes][0], id:stmes * 5};
                 this.stter[stmes*5+1] = {zn:stschet[0], id:stmes * 5 + 1} ; 
                 this.stter[stmes*5+2] = {zn:stschet[2] + " / " + stschet[1], id:stmes * 5 + 2}  ;
-                this.stter[stmes*5+3] = {zn:'', id:stmes * 5 + 3} ;
-                this.stter[stmes*5+4] = {zn:'', id:stmes * 5 + 4} ;  
+                this.stter[stmes*5+3] = {zn:stschet[3], id:stmes * 5 + 3} ;
+                this.stter[stmes*5+4] = {zn:stschet[4], id:stmes * 5 + 4} ;  
                 stschet_itig[0] = stschet_itig[0] + stschet[0];
                 stschet_itig[1] = stschet_itig[1] + stschet[1];
                 stschet_itig[2] = stschet_itig[2] + stschet[2];
-                stschet=[0,0,0];
+                stschet_itig[3] = stschet_itig[3] + stschet[3];
+                stschet_itig[4] = stschet_itig[4] + stschet[4];
+                stschet=[0,0,0,0,0];
                 
             }
             this.stter[stmes*5] = {zn:'Итого', id:stmes * 5} ;
             this.stter[stmes*5+1] = {zn:stschet_itig[0], id:stmes * 5 + 1} ;
             this.stter[stmes*5+2] = {zn:stschet_itig[2] + " / " + stschet_itig[1], id:stmes * 5 + 2}  ;
-            this.stter[stmes*5+3] = {zn:'', id:stmes * 5 + 3} ;
-            this.stter[stmes*5+4] = {zn:'', id:stmes * 5 + 4} ;  
+            this.stter[stmes*5+3] = {zn:stschet_itig[3], id:stmes * 5 + 3} ;
+            this.stter[stmes*5+4] = {zn:stschet_itig[4], id:stmes * 5 + 4} ;  
             
         },
         async firebaseSaveRecordings(title) {

@@ -448,6 +448,12 @@ a {
   background-color: #4bb513;
 }
 
+@media all and (max-width: 600px) {
+  .expenses__head {
+    font-size: 30px;
+  }
+}
+
 .expenses__head-zakr {
   position: absolute;
   padding: 10px;
@@ -457,6 +463,14 @@ a {
   left: 510px;
   font-size: 30px;
   cursor: pointer;
+}
+
+@media all and (max-width: 600px) {
+  .expenses__head-zakr {
+    top: -8px;
+    left: 325px;
+    font-size: 25px;
+  }
 }
 
 .expenses__tablis {
@@ -469,8 +483,14 @@ a {
   width: 100%;
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 20% 60% 20%;
-      grid-template-columns: 20% 60% 20%;
+  -ms-grid-columns: 12% 67% 20%;
+      grid-template-columns: 12% 67% 20%;
   text-align: center;
+}
+
+.expenses__tablis-texti {
+  border: 1px solid black;
+  width: 100%;
+  padding: 0 0px 0 0px;
 }
 /*# sourceMappingURL=style.css.map */
