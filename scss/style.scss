@@ -14,11 +14,12 @@ a {
 }
 .wrapper {
     width: 560px;
+    height: 600px;
     margin: 0 auto auto auto;
     background-color: rgb(243, 247, 247);
     @media all and (max-width: $brec-point1) {
         width: 360px;
-        height: 600px;
+        
     }
 }
 .header {       
@@ -30,7 +31,7 @@ a {
     @media all and (max-width: $brec-point1) {
         height: 59px;
         width: 360px;
-        padding-top: 9px;
+        padding-top: 21px;
     }
     &_btn {     /* кнопки навигации в заголовке */
         width: 70px;
@@ -56,6 +57,7 @@ a {
         font-size: 35px;
         @media all and (max-width: $brec-point1) {
             font-size: 28px;
+            padding-top: 10px;
         }
     }
 
@@ -214,15 +216,14 @@ a {
 }
 .oknostatist {
     position: relative;
-    width: 622px;
-    height: 780px;
+    width: 100%;
+    height: 100%;
     margin: 0 auto auto auto;
     
     background-color: #4bb513;
     @media all and (max-width: $brec-point1) {
         font-size: 20px;
-        width: 360px;
-        height: 500px;
+        
     }
     &_zakrstat{
         width: 100%;
@@ -246,13 +247,9 @@ a {
 }
 #zakrstat {
     position: relative;
-    padding: 10px;
-    width: 40px;
-    height: 20px;
     top: 7px;
-    left: 557px;
+    left: 523px;
     font-size: 30px;
-    
     cursor: pointer;
     @media all and (max-width: $brec-point1) {
         left: 318px;
@@ -282,11 +279,15 @@ a {
     grid-template-rows: 25px 25px 25px 25px 25px 25px 25px 25px 25px 25px 25px 25px 25px;
     background-color: rgb(139, 219, 132);
     text-align: center;
+    
 }
 .stattabl {
     border-style: solid;
     border-width: 1px;
     border-color: #51b699;
+    &__toprow{
+        background-color: #21cd96; 
+    }
     @media all and (max-width: $brec-point1) {
         font-size: 15px;
         line-height: 22px;

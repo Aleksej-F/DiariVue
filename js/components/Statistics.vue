@@ -1,16 +1,19 @@
 <template>
-    <div class="oknostatist" id="oknostatist1">
-         <div v-on:click="$emit('zakrstatistik')" id="zakrstat">Х</div>
+    <div class="oknostatist">
+         <div v-on:click="$emit('zakrstatistik')" >Х</div>
+        
         <HeaderNav
             :title="title"
             v-on:clicknav="statClickNavHead"
         />
-        <div class="stattablis" id="stattabli">
-                <div class="stattabl">Месяц</div>
-                <div class="stattabl">Сумма</div>
-                <div class="stattabl">Кол-во</div>
-                <div class="stattabl">Расходы</div>
-                <div class="stattabl">Доход</div>
+        <div class="stattablis">
+                
+                    <div class="stattabl stattabl__toprow">Месяц</div>
+                    <div class="stattabl stattabl__toprow">Сумма</div>
+                    <div class="stattabl stattabl__toprow">Кол-во</div>
+                    <div class="stattabl stattabl__toprow">Расходы</div>
+                    <div class="stattabl stattabl__toprow">Доход</div>
+               
                 <div class="stattabl"
                     v-for="st in stter"
                     :key="st.id"

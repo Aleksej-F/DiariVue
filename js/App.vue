@@ -23,14 +23,14 @@
             :stter="stter"
             v-on:statClick="calcStatistik"
             v-on:zakrstatistik="zakrStatistik"
-            v-else-if="basic === 's'"/>
+            v-else-if="basic === 's'"
+        />
         
         <Expenses
             v-else-if="basic === 'r'"
             :title="titleHed"
             :expenses="saveExpenses"
             v-on:zakrExpenses="zakrExpenses"
-            
         />
     </div>   
 </template>
@@ -89,7 +89,7 @@ export default {
             saveExpenses: {},         // объект с расходами
                 
             
-            basic: 'r', // признак активного окна
+            basic: 'o', // признак активного окна
             stter:[],
 
         }

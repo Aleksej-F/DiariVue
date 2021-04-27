@@ -16,23 +16,13 @@
                 <p>На что</p>
                 <p>Сумма</p>
             </div>
-            
-                
              
-                <div class="expenses__tablis-tabl" v-for="(item) in expensesFilter" :key="item.idi">
-                
-                    <input type="text" class="texti" v-model="item.date"  >
-                    <input type="text" class="texti" v-model="item.category" >
-                    <input type="text" class="texti" v-model="item.amount" >
-                </div>
-            
-
-             <div class="expenses__tablis-tabl"
-             >
-                <input type="text" class="texti">
-                <input type="text" class="texti">
-                <input type="text" class="texti">
+            <div class="expenses__tablis-tabl" v-for="(item) in expensesFilter" :key="item.idi">
+                <input type="text" class="texti" v-model="item.date"  >
+                <input type="text" class="texti" v-model="item.category" >
+                <input type="text" class="texti" v-model="item.amount" >
             </div>
+            
         </div>
         <div class="razdel"> </div>
         <div class="block_button">
