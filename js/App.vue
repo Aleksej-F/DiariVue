@@ -260,6 +260,9 @@ export default {
             this.basic = 'o';
         },
         calcStatistik(e){
+            this.saveExpenses = JSON.parse(localStorage.getItem('expenses')); // спарсим в объект список записей
+            if (this.saveExpenses===null) {this.saveExpenses = {}}
+            
             let stschet = [0,0,0,0,0];
             let stschet_itig = [0,0,0,0,0];
             this.statTitle = e;
@@ -283,8 +286,10 @@ export default {
                     }
                 }
                 let stkod ='p'  + this.monthN[stmes][1] +  this.statTitle  ; // формируем ключ - дату
+                
                 const prizn = stkod in this.saveExpenses
-                console.log(this.saveExpenses+"        kk   " + prizn)
+                console.log(this.saveExpenses)
+                console.log( prizn)
                 if (prizn) {
                     stschet[3] = this.saveExpenses[stkod].totalAmount
                     stschet[4] = stschet[1] - this.saveExpenses[stkod].totalAmount
