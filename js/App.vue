@@ -235,6 +235,10 @@ export default {
         },
 
         delzapbegin() {
+            if (monthTable.cellClick === 0) {
+                a
+            }
+            
             let isprizn = confirm("Вы точно хотите удалить записи?");
             
             if (isprizn) {

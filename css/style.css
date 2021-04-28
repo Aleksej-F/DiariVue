@@ -480,7 +480,7 @@ a {
 
 @media all and (max-width: 600px) {
   .expenses__tablis-tablis {
-    width: 341px;
+    width: 331px;
     height: 425px;
     overflow-y: scroll;
   }

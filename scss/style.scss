@@ -337,7 +337,7 @@ a {
         background-color: rgb(139, 219, 132);
         &-tablis{
             @media all and (max-width: $brec-point1) {
-                width: 341px;
+                width: 331px;
                 height: 425px;
                 overflow-y:scroll;
             }
