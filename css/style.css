@@ -13,7 +13,7 @@ a {
 
 .wrapper {
   width: 560px;
-  height: 600px;
+  height: 800px;
   margin: 0 auto auto auto;
   background-color: #f3f7f7;
 }
@@ -21,6 +21,7 @@ a {
 @media all and (max-width: 600px) {
   .wrapper {
     width: 360px;
+    height: 600px;
   }
 }
 
@@ -38,7 +39,7 @@ a {
   .header {
     height: 59px;
     width: 360px;
-    padding-top: 21px;
+    padding-top: 8px;
   }
 }
 
@@ -229,9 +230,8 @@ a {
 
 .razdel {
   /*  разделительная полоса */
-  position: relative;
   height: 3px;
-  width: 560px;
+  width: 95%;
   margin: 2px;
 }
 
@@ -430,6 +430,8 @@ a {
 
 .expenses {
   position: relative;
+  height: 100%;
+  background-color: #4bb513;
 }
 
 .expenses__head {
@@ -456,26 +458,32 @@ a {
 
 .expenses__head-zakr {
   position: absolute;
-  padding: 10px;
-  width: 40px;
-  height: 20px;
-  top: -2px;
-  left: 510px;
+  top: 11px;
+  left: 522px;
   font-size: 30px;
   cursor: pointer;
 }
 
 @media all and (max-width: 600px) {
   .expenses__head-zakr {
-    top: -8px;
-    left: 325px;
+    top: 4px;
+    left: 334px;
     font-size: 25px;
   }
 }
 
 .expenses__tablis {
   margin: 10px auto auto auto;
-  width: 100%;
+  width: 90%;
+  background-color: #8bdb84;
+}
+
+@media all and (max-width: 600px) {
+  .expenses__tablis-tablis {
+    width: 341px;
+    height: 425px;
+    overflow-y: scroll;
+  }
 }
 
 .expenses__tablis-tabl {
@@ -483,14 +491,30 @@ a {
   width: 100%;
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 12% 67% 20%;
-      grid-template-columns: 12% 67% 20%;
+  -ms-grid-columns: 13% 67% 20%;
+      grid-template-columns: 13% 67% 20%;
   text-align: center;
 }
 
+.expenses__tablis-tabl:nth-child(1) {
+  background-color: #21cd96;
+}
+
+.expenses__tablis-tabl p {
+  border: 1px solid #51b699;
+}
+
 .expenses__tablis-texti {
-  border: 1px solid black;
-  width: 100%;
-  padding: 0 0px 0 0px;
+  border: 1px solid #51b699;
+  padding: 0;
+  background-color: #8bdb84;
+}
+
+.expenses__tablis-texti:nth-child(3n) {
+  text-align: center;
+}
+
+.expenses__tablis-texti:nth-child(3n-2) {
+  text-align: center;
 }
 /*# sourceMappingURL=style.css.map */

@@ -14,12 +14,12 @@ a {
 }
 .wrapper {
     width: 560px;
-    height: 600px;
+    height: 800px;
     margin: 0 auto auto auto;
     background-color: rgb(243, 247, 247);
     @media all and (max-width: $brec-point1) {
         width: 360px;
-        
+        height: 600px;
     }
 }
 .header {       
@@ -31,7 +31,7 @@ a {
     @media all and (max-width: $brec-point1) {
         height: 59px;
         width: 360px;
-        padding-top: 21px;
+        padding-top: 8px;
     }
     &_btn {     /* кнопки навигации в заголовке */
         width: 70px;
@@ -157,10 +157,11 @@ a {
     }
 }
 .razdel {    /*  разделительная полоса */
-    position: relative;
+    
     height: 3px;
-    width: 560px;
+    width: 95%;
     margin: 2px;
+
 }
 .shape{
     height: 110px;
@@ -219,7 +220,6 @@ a {
     width: 100%;
     height: 100%;
     margin: 0 auto auto auto;
-    
     background-color: #4bb513;
     @media all and (max-width: $brec-point1) {
         font-size: 20px;
@@ -305,6 +305,8 @@ a {
 
 .expenses {
     position: relative;
+    height: 100%;
+    background-color: #4bb513;
     &__head{
     position: relative;
     display: flex;
@@ -318,34 +320,55 @@ a {
     }
         &-zakr{
             position: absolute;
-            padding: 10px;
-            width: 40px;
-            height: 20px;
-            top:-2px;
-            left: 510px;
+            top: 11px;
+            left: 522px;
             font-size: 30px;
             cursor: pointer;
             @media all and (max-width: $brec-point1) {
-                top: -8px;
-                left: 325px;
+                top: 4px;
+                left: 334px;
                 font-size: 25px;
             }
         }
     }
     &__tablis{
         margin: 10px auto auto auto;
-        width: 100%;
+        width: 90%;
+        background-color: rgb(139, 219, 132);
+        &-tablis{
+            @media all and (max-width: $brec-point1) {
+                width: 341px;
+                height: 425px;
+                overflow-y:scroll;
+            }
+        }
         &-tabl{
             height: 25px;
             width: 100%;
             display: grid;
-            grid-template-columns: 12% 67% 20% ;
+            grid-template-columns: 13% 67% 20% ;
             text-align: center;
+            
+            &:nth-child(1) {
+                background-color: #21cd96;
+            }
+        }
+        &-tabl p{
+            border: 1px solid #51b699;
         }
         &-texti {
-            border: 1px solid black;
-            width: 100%;
-            padding: 0 0px 0 0px;
+            border: 1px solid #51b699;
+           
+            padding: 0;
+            background-color: #8bdb84;
+            &:nth-child(3n) {
+                text-align: center;
+            }
+            &:nth-child(3n-2) {
+                text-align: center;
+            }
+
+
         }
         
     }

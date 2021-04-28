@@ -59,10 +59,10 @@ export default {
 
     data() {
         return {
-            monthTable: { 
-                cellClick: 0,
+            monthTable: {  //объект с информацией календаря
+                cellClick: 0, //номер кликнутой ячейки
                 arr:[],
-                cellClickKodmet: ''
+                cellClickKodmet: '' // код кликнутой ячейки для поиска записей
             },
             titleHed:'',
             statTitle:'',
@@ -87,9 +87,7 @@ export default {
             },            
             saveRecordings: {},     //объект с записями
             saveExpenses: {},         // объект с расходами
-                
-            
-            basic: 'o', // признак активного окна
+            basic: 'o',              // признак активного окна
             stter:[],
 
         }
@@ -97,11 +95,13 @@ export default {
     created() {
         
         // обращаемся к фун-ии для считывания списка записей
-       // this.fetchRecordings()
+        // this.fetchRecordings()
         this.loadingLocalStorage()
-        console.log('app saveExpenses.arr   ' + this.saveExpenses.length)
+        console.log('app saveExpenses.arr   ')
+        console.log(this.saveExpenses)
+         // обращаемся к фун-ии для формирования объекта месяца
         this.generatingMonthData()
-        // обращаемся к фун-ии для заполнения месяца данными
+        // обращаемся к фун-ии для заполнения объекта месяца данными
         this.generatingMonthData1(this.date1.getFullYear(),this.date1.getMonth(),this.date1.getDate(),this.jacheka);  
     },
     computed: {
@@ -155,6 +155,7 @@ export default {
 			}
 			
 		},
+        // ф-я обновления заголовка для Expenses
         calsExpenses(year,month,){
             this.titleHed = this.monthN[month][0] + " " + year;
 
@@ -163,14 +164,11 @@ export default {
 		clickNavHead(a){
 			this.date1.setMonth(this.date1.getMonth() + a);  // переопределяем месяц 
 			this.generatingMonthData1(this.date1.getFullYear(),this.date1.getMonth(),this.date1.getDate(), 1);     // обращение к ф-ии для обновления данных месяца
-            //this.tablsClear();
-           // this.tablDen()
-
         }, 
         // клик по стрелке назад или вперед на окне расходов
 		
         tablsNev(ind) {
-            const date = this.monthTable.arr[ind].kodmet;          
+            const date = this.monthTable.arr[this.monthTable.cellClick].kodmet;          
             const prizn = date in this.saveRecordings;
             
             this.tabls =[]
@@ -184,7 +182,7 @@ export default {
             } 
             //console.log('ggggggg   ', this.tabls)
         },
-        
+               
         getSaveLocalStorage() {
             //console.log('saveLocalStorage ' )
             const prizn = this.monthTable.cellClickKodmet in this.saveRecordings;
@@ -219,6 +217,8 @@ export default {
         loadingLocalStorage() {
             this.saveRecordings = JSON.parse(localStorage.getItem('recordings')); // спарсим в объект список записей
             if (this.saveRecordings===null) {this.saveRecordings = {}}
+            this.saveExpenses = JSON.parse(localStorage.getItem('expenses')); // спарсим в объект список записей
+            if (this.saveExpenses===null) {this.saveExpenses = {}}
         },
 
         saveLocalStorage() {
@@ -242,7 +242,7 @@ export default {
                 this.saveLocalStorage();
                 this.monthTable.arr[this.monthTable.cellClick].recordsDay = 0;
                 console.log(this.monthTable.cellClick)
-                this. tablsClear;
+                this.tablsNev();
             }
         },
 
@@ -286,13 +286,17 @@ export default {
                     }
                 }
                 let stkod ='p'  + this.monthN[stmes][1] +  this.statTitle  ; // формируем ключ - дату
-                
+                console.log('stkod    -  ' + stkod)
                 const prizn = stkod in this.saveExpenses
                 console.log(this.saveExpenses)
                 console.log( prizn)
                 if (prizn) {
-                    stschet[3] = this.saveExpenses[stkod].totalAmount
-                    stschet[4] = stschet[1] - this.saveExpenses[stkod].totalAmount
+                    for (let a = 0; a < this.saveExpenses[stkod].tablis.length; a++) {
+                        console.log( this.saveExpenses[stkod].tablis[a].amount)
+                        stschet[3] = stschet[3] + Number(this.saveExpenses[stkod].tablis[a].amount)
+                    }
+                    
+                    stschet[4] = stschet[1] - stschet[3]
                 }
                 this.stter[stmes*5] = {zn:this.monthN[stmes][0], id:stmes * 5};
                 this.stter[stmes*5+1] = {zn:stschet[0], id:stmes * 5 + 1} ; 

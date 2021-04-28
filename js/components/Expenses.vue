@@ -16,21 +16,23 @@
                 <p>На что</p>
                 <p>Сумма</p>
             </div>
-             
-            <div class="expenses__tablis-tabl" v-for="(item) in expensesFilter" :key="item.idi">
-                <input type="text" class="texti" v-model="item.date"  >
-                <input type="text" class="texti" v-model="item.category" >
-                <input type="text" class="texti" v-model="item.amount" >
-            </div>
+            <div class="expenses__tablis-tablis">
             
+                <div class="expenses__tablis-tabl" v-for="(item) in expensesFilter" :key="item.idi">
+                    <input type="text" class="expenses__tablis-texti" v-model="item.item.date"  v-on:input="saveExpensesLocalStorage">
+                    <input type="text" class="expenses__tablis-texti" v-model="item.item.category" v-on:input="saveExpensesLocalStorage">
+                    <input type="text" class="expenses__tablis-texti" v-model="item.item.amount" v-on:input="saveExpensesLocalStorage">
+                </div>
+            </div> 
         </div>
+<!--
         <div class="razdel"> </div>
         <div class="block_button">
-            <div class="button" v-on:click="expensesSave"></div>
+            <div class="button" v-on:click="calcExpensesSave"></div>
             <div class="button" v-on:click="$emit('delzapbegin')"></div>
            
-            </div>
-
+        </div>
+-->
         
     </div>
 </template>
@@ -45,11 +47,12 @@ export default {
             title:'',
             dateExpenses: new Date(),  // текущая дата для изменения
             tablExpenses:[],
-            expensesFilter:[]
+            expensesFilter:[],
+            index: 20
         }
     },
     created() {
-       this.loadingExpensesLocalStorage() //считываем расходы из LocalStorage
+      // this.loadingExpensesLocalStorage() //считываем расходы из LocalStorage
        this.calcExpensesFilter()
     },
     mounted(){
@@ -63,18 +66,26 @@ export default {
     },
     methods: {  
         calcExpensesFilter() {
+            
             const kod = 'p' + updateTitle.updateMonth(this.dateExpenses) + this.dateExpenses.getFullYear()
             const prizn = kod in this.expenses;
-            this.expensesFilter =[]
+            
+            console.log('this.expenses')
+            console.log(this.expenses)
+            
+            this.expensesFilter = []
             if (!prizn) { 
-                for (let index = 0; index < 20; index++) {
-                    this.expensesFilter.push({date:'', category:'', amount:'',  idi: kod + index})
+                this.expenses[kod]={tablis: []}
+                for (let index = 0; index < this.index; index++) {
+                    this.expenses[kod].tablis.push({date:'', category:'', amount:''})
                 }
-            } else {
+            } 
                 for (let index = 0; index < this.expenses[kod].tablis.length; index++) {
-                    this.expensesFilter.push(this.expenses[kod].tablis[index])
+                    this.expensesFilter.push({item: this.expenses[kod].tablis[index], idi: kod + index})
+                    //this.expensesFilter[index].idi = kod + index
                 }
-            }
+            console.log('this.expensesFilter')
+            console.log(this.expensesFilter)
         },
         
         statClickNavHead(e){
@@ -83,27 +94,32 @@ export default {
             this.calcExpensesFilter()
         },
 
-        expensesSave(){
+        calcExpensesSave(){
             const kod = 'p' + updateTitle.updateMonth(this.dateExpenses)+ this.dateExpenses.getFullYear()
             const prizn = kod in this.expenses;
             console.log('this.tablExpenses  ' + this.tablExpenses)
-            
+            console.log(this.tablExpenses)
             if (!prizn) {
                 this.expenses[kod] = {tablis: []}
+                this.expenses[kod].totalAmount = 0
+                let a = 0
+                for (let index = 0; index < this.index; index++) {
+                    this.expenses[kod].tablis[index] = {
+                        date: this.expensesFilter[index].date,
+                        category: this.expensesFilter[index].category,
+                        amount: this.expensesFilter[index].amount
+                        } 
+                        this.expenses[kod].totalAmount = this.expenses[kod].totalAmount + Number(this.expensesFilter[index].amount)
+                        a += 3 
+                }
+                this.calcExpensesFilter()
             }
-            this.expenses[kod].totalAmount = 0
-            let a = 0
-            for (let index = 0; index < 20; index++) {
-                   this.expenses[kod].tablis[index] = {
-                       date: this.expensesFilter[index].date,
-                       category: this.expensesFilter[index].category,
-                       amount: this.expensesFilter[index].amount
-                    } 
-                    this.expenses[kod].totalAmount = this.expenses[kod].totalAmount + Number(this.expensesFilter[index].amount)
-                    a += 3 
-            }
+            
             console.log('this.tablExpenses  ' + this.tablExpenses)
+            console.log(this.tablExpenses)
             console.log('this.expenses ' + this.expenses[kod])
+            console.log(this.expenses[kod])
+            
             this.saveExpensesLocalStorage()
         },
         
@@ -119,14 +135,12 @@ export default {
                     }
                 }
         },
+
         loadingExpensesLocalStorage() {
             this.expenses = JSON.parse(localStorage.getItem('expenses')); // спарсим в объект список записей
             if (this.expenses===null) {this.expenses = {}}
         },
        
-
-        
-        
     }
 }
 </script>

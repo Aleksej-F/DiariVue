@@ -13,15 +13,17 @@ const monthN = {   // Название месяца
     11: ["Декабрь", "12"],
   }   
 
-export default {updateTitle :function ( date) {
-    
-
+export default {
+  updateTitle :function ( date) {
     let title = monthN[date.getMonth()][0] + " " + date.getFullYear();
    
     return title
   },
+
   updateMonth :function ( date) {
   
     return monthN[date.getMonth()][1]
   }
+
+  
 }

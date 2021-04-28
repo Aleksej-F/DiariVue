@@ -1,6 +1,11 @@
 <template>
     <div class="oknostatist">
-         <div v-on:click="$emit('zakrstatistik')" >Х</div>
+         <div class="expenses__head">
+            <p>Статистика</p> 
+            <div v-on:click="$emit('zakrstatistik')" class="expenses__head-zakr">Х</div>
+        </div>
+         
+        
         
         <HeaderNav
             :title="title"
