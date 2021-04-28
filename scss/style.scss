@@ -18,7 +18,7 @@ a {
     margin: 0 auto auto auto;
     background-color: rgb(243, 247, 247);
     @media all and (max-width: $brec-point1) {
-        width: 360px;
+        width: 370px;
         height: 600px;
     }
 }
@@ -337,7 +337,7 @@ a {
         background-color: rgb(139, 219, 132);
         &-tablis{
             @media all and (max-width: $brec-point1) {
-                width: 324px;
+                
                 height: 425px;
                 overflow-y:scroll;
             }
