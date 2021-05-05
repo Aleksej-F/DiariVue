@@ -14,30 +14,30 @@ a {
 }
 .wrapper {
     width: 560px;
-    height: 800px;
+    
     margin: 0 auto auto auto;
     background-color: rgb(243, 247, 247);
     @media all and (max-width: $brec-point1) {
-        width: 360px;
-        height: 640px;
+        width: 100vw;
+       
     }
 }
 .header {       
     height: 86px;
-    padding-top: 15px;
+    
     background-color: #4bb513;
     display: grid;
     grid-template-columns: 20% 60% 20%;
     @media all and (max-width: $brec-point1) {
         height: 59px;
-        width: 360px;
-        padding-top: 8px;
+       
+       
     }
     &_btn {     /* кнопки навигации в заголовке */
         width: 70px;
         height: 70px;
         background-size: cover;
-        margin: 0 auto;
+        margin: auto;
         border-radius: 10px;
         cursor: pointer;
         &:nth-child(1) {  /* кнопка назад */
@@ -64,7 +64,8 @@ a {
 }
 .hear1 {
     display: grid;
-    grid-template-columns: 14.3% 14.3% 14.3% 14.3% 14.3% 14.3% 14.3%;
+    
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-template-rows: 40px;
     width: 100%;
     background-color: #e0dddd;
@@ -81,13 +82,14 @@ a {
 }
 .hearid {    /*  блок календаря */
     display: grid;
-    grid-template-columns: 14.3% 14.3% 14.3% 14.3% 14.3% 14.3% 14.3%;
-    grid-template-rows: 80px 80px 80px 80px 80px 80px;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
     height: 490px;
     width: 100%;
     @media all and (max-width: $brec-point1) {
-        grid-template-rows: 52px 52px 52px 52px 52px 52px;
-        height: 320px;
+        width: 100vw;
+        
+        height: 100vw-100vw/7;
     }
 }
 .ter {    /*  ячейка календаря */
@@ -221,6 +223,7 @@ a {
     height: 100%;
     margin: 0 auto auto auto;
     background-color: #4bb513;
+    padding-bottom: 27px;
     @media all and (max-width: $brec-point1) {
         font-size: 20px;
         
@@ -308,25 +311,25 @@ a {
     height: 100%;
     background-color: #4bb513;
     &__head{
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 50px;
+    text-align: center;
+   
     font-size: 35px;
     background-color: #4bb513;
     @media all and (max-width: $brec-point1) {
         font-size: 30px;
     }
         &-zakr{
-            position: absolute;
-            top: 11px;
-            left: 522px;
+            display: inline-block;
+            width: 100%;
+            text-align: end;
             font-size: 30px;
             cursor: pointer;
+            p {
+                margin-right: 14px;
+                margin-top: 12px;
+            }
             @media all and (max-width: $brec-point1) {
-                top: 4px;
-                left: 334px;
+                
                 font-size: 25px;
             }
         }
@@ -334,8 +337,10 @@ a {
     &__tablis{
         margin: 10px auto auto auto;
         width: 90%;
-        background-color: rgb(139, 219, 132);
+        
+        padding-bottom: 27px;
         &-tablis{
+            background-color: rgb(139, 219, 132);
             @media all and (max-width: $brec-point1) {
                 
                 height: 425px;

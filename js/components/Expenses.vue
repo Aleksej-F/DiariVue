@@ -1,10 +1,11 @@
 <template>
     <div class="expenses">
-        <div class="expenses__head">
-            <p>Расходы</p> 
-            <div v-on:click="$emit('zakrExpenses')" class="expenses__head-zakr">Х</div>
-        </div>
         
+        <HeaderTitle
+            :title="titl"
+            v-on:zakr="$emit('zakrExpenses')"
+        />
+
         <HeaderNav
             :title="title"
             v-on:clicknav="statClickNavHead"
@@ -38,12 +39,14 @@
 </template>
 
 <script>
+import HeaderTitle from './HeaderTitle.vue'
 import HeaderNav from './HeaderNav.vue'
 import updateTitle from '.././func/update.js'
 export default {
     props: ['expenses'],
     data() {
         return {
+            titl:'Расходы',
             title:'',
             dateExpenses: new Date(),  // текущая дата для изменения
             tablExpenses:[],
@@ -60,6 +63,7 @@ export default {
     },
     components: {
         HeaderNav,
+        HeaderTitle
     },
     computed: {
        

@@ -13,21 +13,18 @@ a {
 
 .wrapper {
   width: 560px;
-  height: 800px;
   margin: 0 auto auto auto;
   background-color: #f3f7f7;
 }
 
 @media all and (max-width: 600px) {
   .wrapper {
-    width: 360px;
-    height: 640px;
+    width: 100vw;
   }
 }
 
 .header {
   height: 86px;
-  padding-top: 15px;
   background-color: #4bb513;
   display: -ms-grid;
   display: grid;
@@ -38,8 +35,6 @@ a {
 @media all and (max-width: 600px) {
   .header {
     height: 59px;
-    width: 360px;
-    padding-top: 8px;
   }
 }
 
@@ -48,7 +43,7 @@ a {
   width: 70px;
   height: 70px;
   background-size: cover;
-  margin: 0 auto;
+  margin: auto;
   border-radius: 10px;
   cursor: pointer;
 }
@@ -86,8 +81,8 @@ a {
 .hear1 {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 14.3% 14.3% 14.3% 14.3% 14.3% 14.3% 14.3%;
-      grid-template-columns: 14.3% 14.3% 14.3% 14.3% 14.3% 14.3% 14.3%;
+  -ms-grid-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   -ms-grid-rows: 40px;
       grid-template-rows: 40px;
   width: 100%;
@@ -108,19 +103,18 @@ a {
   /*  блок календаря */
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 14.3% 14.3% 14.3% 14.3% 14.3% 14.3% 14.3%;
-      grid-template-columns: 14.3% 14.3% 14.3% 14.3% 14.3% 14.3% 14.3%;
-  -ms-grid-rows: 80px 80px 80px 80px 80px 80px;
-      grid-template-rows: 80px 80px 80px 80px 80px 80px;
+  -ms-grid-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  -ms-grid-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+      grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
   height: 490px;
   width: 100%;
 }
 
 @media all and (max-width: 600px) {
   .hearid {
-    -ms-grid-rows: 52px 52px 52px 52px 52px 52px;
-        grid-template-rows: 52px 52px 52px 52px 52px 52px;
-    height: 320px;
+    width: 100vw;
+    height: 85.71429vw;
   }
 }
 
@@ -317,6 +311,7 @@ a {
   height: 100%;
   margin: 0 auto auto auto;
   background-color: #4bb513;
+  padding-bottom: 27px;
 }
 
 @media all and (max-width: 600px) {
@@ -435,17 +430,7 @@ a {
 }
 
 .expenses__head {
-  position: relative;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  height: 50px;
+  text-align: center;
   font-size: 35px;
   background-color: #4bb513;
 }
@@ -457,17 +442,20 @@ a {
 }
 
 .expenses__head-zakr {
-  position: absolute;
-  top: 11px;
-  left: 522px;
+  display: inline-block;
+  width: 100%;
+  text-align: end;
   font-size: 30px;
   cursor: pointer;
 }
 
+.expenses__head-zakr p {
+  margin-right: 14px;
+  margin-top: 12px;
+}
+
 @media all and (max-width: 600px) {
   .expenses__head-zakr {
-    top: 4px;
-    left: 334px;
     font-size: 25px;
   }
 }
@@ -475,6 +463,10 @@ a {
 .expenses__tablis {
   margin: 10px auto auto auto;
   width: 90%;
+  padding-bottom: 27px;
+}
+
+.expenses__tablis-tablis {
   background-color: #8bdb84;
 }
 

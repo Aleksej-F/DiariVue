@@ -1,10 +1,11 @@
 <template>
     <div class="oknostatist">
-         <div class="expenses__head">
-            <p>Статистика</p> 
-            <div v-on:click="$emit('zakrstatistik')" class="expenses__head-zakr">Х</div>
-        </div>
          
+         
+        <HeaderTitle
+            :title="titl"
+            v-on:zakr="$emit('zakrstatistik')"
+        />
         
         
         <HeaderNav
@@ -30,10 +31,17 @@
 
 <script>
 import HeaderNav from './HeaderNav.vue'
+import HeaderTitle from './HeaderTitle.vue'
 export default {
     props: ['title', 'stter'],
     components: {
         HeaderNav,
+        HeaderTitle
+    },
+    data() {
+        return {
+            titl:'Статистика',
+        }
     },
     methods: {    
         statClickNavHead(e){
