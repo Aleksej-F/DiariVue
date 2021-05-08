@@ -184,6 +184,10 @@ export default {
         },
                
         getSaveLocalStorage() {
+           
+            if (this.monthTable.cellClick === 0) {
+                return
+            }
             //console.log('saveLocalStorage ' )
             const prizn = this.monthTable.cellClickKodmet in this.saveRecordings;
             console.log('saveLocalStorage ' + prizn )
@@ -209,7 +213,12 @@ export default {
             if (couterRecordings > 0) {
                 this.saveLocalStorage()
                 console.log('сохранил')
-            } else { console.log('не стал сохранять')}
+            } else if (prizn) { 
+                console.log('удалил этот  день')
+                delete  this.saveRecordings[this.monthTable.cellClickKodmet];// удаляем запись из списка записей
+                this.saveLocalStorage();
+            } else {console.log('не стал сохранять')};
+
            this.loadingLocalStorage()
            this.monthTable.arr[this.monthTable.cellClick].recordsDay = couterRecordings;
         },
@@ -235,8 +244,9 @@ export default {
         },
 
         delzapbegin() {
-            if (monthTable.cellClick === 0) {
-                a
+            console.log(this.monthTable.cellClick)
+            if (this.monthTable.cellClick === 0) {
+                return
             }
             
             let isprizn = confirm("Вы точно хотите удалить записи?");
@@ -245,7 +255,7 @@ export default {
                 delete  this.saveRecordings[this.monthTable.cellClickKodmet];// удаляем запись из списка записей
                 this.saveLocalStorage();
                 this.monthTable.arr[this.monthTable.cellClick].recordsDay = 0;
-                console.log(this.monthTable.cellClick)
+                
                 this.tablsNev();
             }
         },
