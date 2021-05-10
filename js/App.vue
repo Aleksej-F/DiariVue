@@ -40,21 +40,13 @@ import firebase from 'firebase/app'
 import Calendar from './components/Calendar.vue'
 import Statistics from './components/Statistics.vue'
 import Expenses from './components/Expenses.vue'
-import HeaderNav from './components/HeaderNav.vue'
-import HeaderDay from './components/HeaderDay.vue'
-import GoodsList from './components/GoodList.vue'
-import Tablis from './components/Tablis.vue'
 
 export default {
     name: 'App',
     components: {
-        HeaderNav,
-        HeaderDay,
-        GoodsList,
-        Tablis,
+        Calendar,
         Statistics,
         Expenses,
-        Calendar,
     },
 
     data() {
@@ -93,7 +85,7 @@ export default {
         }
     },
     created() {
-        
+       
         // обращаемся к фун-ии для считывания списка записей
         // this.fetchRecordings()
         this.loadingLocalStorage()
@@ -108,7 +100,10 @@ export default {
         
     },
     methods: {
-       
+        calsCellClick() {
+            this.monthTable.arr[this.monthTable.cellClick].prCir2= false;
+            this.monthTable.cellClick = 0
+        },
 		generatingMonthData() {
 			for (let n = 0; n < 42; n++) { 
 				let item = {
@@ -165,22 +160,36 @@ export default {
 			this.date1.setMonth(this.date1.getMonth() + a);  // переопределяем месяц 
 			this.generatingMonthData1(this.date1.getFullYear(),this.date1.getMonth(),this.date1.getDate(), 1);     // обращение к ф-ии для обновления данных месяца
         }, 
-        // клик по стрелке назад или вперед на окне расходов
+        
 		
         tablsNev(ind) {
             const date = this.monthTable.arr[this.monthTable.cellClick].kodmet;          
             const prizn = date in this.saveRecordings;
             
             this.tabls =[]
-            
-            for (let ii=0; ii<16; ii++) {
+            let ii = 0
+            for (let rr=0; rr<4; rr++) {
                 if (prizn) {
-                    this.tabls[ii] = {id: date + ii, zar:  this.saveRecordings[date].tabls[ii]};
+                    this.tabls[rr] = {
+                        id: date + rr, 
+                        time: this.saveRecordings[date].tabls[ii], 
+                        name: this.saveRecordings[date].tabls[ii+1],
+                        telephone: this.saveRecordings[date].tabls[ii+2],
+                        summ: this.saveRecordings[date].tabls[ii+3]
+                    }
+                    
                 } else {
-                    this.tabls[ii] = {id: date + ii, zar: ''};
+                    this.tabls[rr] = {
+                        id: date + rr, 
+                        time: '', 
+                        name: '',
+                        telephone: '',
+                        summ: ''
+                    };
                 }
+                ii += 4
             } 
-            //console.log('ggggggg   ', this.tabls)
+            console.log('this.tabls ggggggg   ', this.tabls)
         },
                
         getSaveLocalStorage() {
@@ -198,14 +207,23 @@ export default {
             let counterPaid = 0; 
             let couterRecordings = 0;
             let pr = false;   
-            for (let ii = 1; ii < 17; ii++) {
-                    if (this.tabls[ii-1].zar !== '') {pr = true};
-                    if (ii % 4 === 0) {
-                        if (pr === true) {couterRecordings += 1;}
-                        if (this.tabls[ii-1].zar !== '') {counterPaid += 1;} 
-                        pr = false;
-                    }
-                    this.saveRecordings[this.monthTable.cellClickKodmet].tabls[ii-1] = this.tabls[ii-1].zar
+            let rr = 0
+            for (let ii = 0; ii < 4; ii++) {
+                    if ((this.tabls[ii].time !== '') ||
+                        (this.tabls[ii].name !== '') ||
+                        (this.tabls[ii].telephone !== '') ||
+                        (this.tabls[ii].summ !== '') 
+                    ) {pr = true}
+                   
+                    if (pr === true) {couterRecordings += 1;}
+                    if (this.tabls[ii].summ !== '') {counterPaid += 1;} 
+                    pr = false;
+                   
+                    this.saveRecordings[this.monthTable.cellClickKodmet].tabls[rr] = this.tabls[ii].time
+                    this.saveRecordings[this.monthTable.cellClickKodmet].tabls[rr+1] = this.tabls[ii].name
+                    this.saveRecordings[this.monthTable.cellClickKodmet].tabls[rr+2] = this.tabls[ii].telephone
+                    this.saveRecordings[this.monthTable.cellClickKodmet].tabls[rr+3] = this.tabls[ii].summ
+                    rr += 4
             }
             this.saveRecordings[this.monthTable.cellClickKodmet].counterPaid = counterPaid;
             this.saveRecordings[this.monthTable.cellClickKodmet].couterRecordings = couterRecordings;
@@ -266,11 +284,13 @@ export default {
         },
         zakrStatistik(){
             this.basic = 'o';
+            this.calsCellClick()
         },
         openExpenses() {
             this.basic = 'r';
         },
         zakrExpenses(){
+            this.calsCellClick()
             this.basic = 'o';
         },
         calcStatistik(e){

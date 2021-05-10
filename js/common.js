@@ -1,4 +1,6 @@
 import Vue from 'vue'
+//import Vuelidate from 'vuelidate'
+
 import App from './App.vue'
 import store from './store/index.js'
 //import './style.css'
@@ -8,6 +10,7 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
 
+//Vue.use(Vuelidate)
 Vue.config.productionTip = false
 
 firebase.initializeApp({

@@ -137,7 +137,12 @@ a {
 
 .cir {
   /* ячейка количества записей в день */
-  display: block;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   border-radius: 50%;
   background-color: #ed2110;
   font-size: 20px;
@@ -145,7 +150,12 @@ a {
   height: 30%;
   text-align: center;
   margin: 15px auto auto;
+  padding: auto;
   color: #0f0e0e;
+}
+
+.cir-p {
+  margin: auto;
 }
 
 @media all and (max-width: 600px) {
@@ -238,10 +248,8 @@ a {
   width: 100%;
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 12% 44% 25% 15%;
-      grid-template-columns: 12% 44% 25% 15%;
-  -ms-grid-rows: 20px 25px 25px 25px 25px;
-      grid-template-rows: 20px 25px 25px 25px 25px;
+  -ms-grid-columns: 2fr 4fr 2fr 1fr;
+      grid-template-columns: 2fr 4fr 2fr 1fr;
   grid-column-gap: 3px;
   grid-row-gap: 3px;
   text-align: center;
@@ -249,7 +257,8 @@ a {
 
 .texti {
   width: 99%;
-  padding: 0 0px 0 0px;
+  padding: 0;
+  margin-bottom: 3px;
 }
 
 .block_button {

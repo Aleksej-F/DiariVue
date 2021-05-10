@@ -12,7 +12,7 @@
 	                ></div>
 	                <div class="cir"
 						v-if="good.recordsDay > 0"
-					> {{ good.recordsDay }} </div>
+					> <div class="cir-p">{{ good.recordsDay }} </div></div>
 	            </div>
          	</div>
 
